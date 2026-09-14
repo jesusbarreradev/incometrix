@@ -35,8 +35,3 @@ struct AddAccountView: View {
         dismiss()
     }
 }
-
-#Preview {
-    AddAccountView()
-        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-}

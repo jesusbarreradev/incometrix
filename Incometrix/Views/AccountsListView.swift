@@ -54,8 +54,3 @@ struct AccountsListView: View {
         PersistenceController.shared.save()
     }
 }
-
-#Preview {
-    AccountsListView()
-        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-}

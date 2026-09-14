@@ -51,8 +51,3 @@ struct EditAccountView: View {
     }
 }
 
-#Preview {
-    let context = PersistenceController.preview.container.viewContext
-    let account = try! context.fetch(Account.fetchRequest()).first!
-    return EditAccountView(account: account)
-}

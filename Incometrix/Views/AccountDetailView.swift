@@ -54,10 +54,3 @@ struct AccountDetailView: View {
     }
 }
 
-#Preview {
-    let context = PersistenceController.preview.container.viewContext
-    let account = try! context.fetch(Account.fetchRequest()).first!
-    return NavigationStack {
-        AccountDetailView(account: account)
-    }
-}

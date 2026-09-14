@@ -49,9 +49,3 @@ struct TransationsListView: View {
         .navigationTitle(account.name ?? "Transactions")
     }
 }
-
-#Preview {
-    let context = PersistenceController.preview.container.viewContext
-    let account = try! context.fetch(Account.fetchRequest()).first!
-    TransationsListView(account: account)
-}
