@@ -15,9 +15,18 @@ struct ContentView: View {
             TabView {
                 AccountsListView()
                     .tabItem { Label("Accounts", systemImage: "creditcard") }
-
+                
+                AccountsListView()
+                    .tabItem { Label("Transactions", systemImage: "dollarsign") }
+                
+                AccountsListView()
+                    .tabItem { Label("Metrics", systemImage: "chart.pie.fill") }
+                
                 GoalsListView()
                     .tabItem { Label("Goals", systemImage: "target") }
+                
+                GoalsListView()
+                    .tabItem { Label("Settings", systemImage: "gearshape.fill") }
             }
         }
 }
