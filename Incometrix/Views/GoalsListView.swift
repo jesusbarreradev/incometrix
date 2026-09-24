@@ -13,15 +13,7 @@ struct GoalsListView: View {
         NavigationStack {
             List {
                 ForEach(goals) { goal in
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(goal.title ?? "Untitled")
-                            .font(.headline)
-                        ProgressView(value: goal.progress)
-                        Text("\(goal.currentAmount.asCurrency) of \(goal.targetAmount.asCurrency)")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(.vertical, 4)
+                    GoalRow(goal: goal)
                 }
                 .onDelete(perform: deleteGoals)
             }
@@ -49,9 +41,4 @@ struct GoalsListView: View {
         offsets.map { goals[$0] }.forEach(viewContext.delete)
         PersistenceController.shared.save()
     }
-}
-
-#Preview {
-    GoalsListView()
-        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }
