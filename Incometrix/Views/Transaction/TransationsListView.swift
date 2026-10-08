@@ -9,15 +9,14 @@ import SwiftUI
 import CoreData
 
 struct TransationsListView: View {
-    let account: Account
+    //let account: Account
 
     @FetchRequest private var transactions: FetchedResults<Transaction>
 
-    init(account: Account) {
-        self.account = account
+    init(accounts: Set<Account> = []) {
         _transactions = FetchRequest<Transaction>(
             sortDescriptors: [NSSortDescriptor(keyPath: \Transaction.date, ascending: false)],
-            predicate: NSPredicate(format: "account == %@", account)
+            predicate: accounts.isEmpty ? nil : NSPredicate(format: "account IN %@", accounts)
         )
     }
 
@@ -31,10 +30,10 @@ struct TransationsListView: View {
     }
     
     var body: some View {
-        if account.transactionsArray.isEmpty {
-            Text("No transactions yet.")
-                .foregroundStyle(.secondary)
-        }
+//        if account.transactionsArray.isEmpty {
+//            Text("No transactions yet.")
+//                .foregroundStyle(.secondary)
+//        }
         List {
             ForEach(groupedTransactions, id: \.day) { section in
                 Section {
@@ -46,6 +45,11 @@ struct TransationsListView: View {
                 }
             }
         }
-        .navigationTitle(account.name ?? "Transactions")
+        .navigationTitle("Transactions")
+        .overlay{
+            if transactions.isEmpty {
+                ContentUnavailableView("No transactions", systemImage: "square.dashed.micro")
+            }
+        }
     }
 }
