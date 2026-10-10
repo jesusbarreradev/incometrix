@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct TransationsListView: View {
+struct TransactionsListView: View {
     //let account: Account
 
     @FetchRequest private var transactions: FetchedResults<Transaction>
@@ -30,10 +30,6 @@ struct TransationsListView: View {
     }
     
     var body: some View {
-//        if account.transactionsArray.isEmpty {
-//            Text("No transactions yet.")
-//                .foregroundStyle(.secondary)
-//        }
         List {
             ForEach(groupedTransactions, id: \.day) { section in
                 Section {

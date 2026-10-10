@@ -14,6 +14,7 @@ struct AddAccountView: View {
                 TextField("Account name", text: $name)
                 TextField("Initial balance", text: $initialBalance)
                     .keyboardType(.decimalPad)
+                    .numbersOnly($initialBalance)
             }
             .navigationTitle("New Account")
             .toolbar {

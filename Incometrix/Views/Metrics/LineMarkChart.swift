@@ -25,12 +25,14 @@ var data: [MonthlyHoursOfSunshine] = [
     MonthlyHoursOfSunshine(month: 12, hoursOfSunshine: 62)
 ]
 
-
-var body: some View {
-    Chart(data) {
-        LineMark(
-            x: .value("Month", $0.date),
-            y: .value("Hours of Sunshine", $0.hoursOfSunshine)
-        )
+struct LineMarkChart: View {
+    var body: some View {
+        Chart(data) {
+            LineMark(
+                x: .value("Month", $0.date),
+                y: .value("Hours of Sunshine", $0.hoursOfSunshine)
+            )
+        }
     }
 }
+

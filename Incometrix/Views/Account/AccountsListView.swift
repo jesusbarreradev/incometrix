@@ -8,12 +8,19 @@ struct AccountsListView: View {
     // matching objects are inserted, updated, or deleted in this context.
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Account.name, ascending: true)])
     private var accounts: FetchedResults<Account>
+    
+    var grandTotal: Double { accounts.map(\.balance).reduce(Double(0), +) }
 
     @State private var showingAddAccount = false
 
     var body: some View {
         NavigationStack {
+            let grandTotalTitle = Text(grandTotal.formatted(.currency(code: "MXN")))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.title2)
+            
             List {
+                grandTotalTitle
                 ForEach(accounts) { account in
                     NavigationLink(value: account) {
                         HStack {
@@ -39,6 +46,7 @@ struct AccountsListView: View {
             }
             .sheet(isPresented: $showingAddAccount) {
                 AddAccountView()
+                    .presentationDetents([.medium])
             }
             .overlay {
                 if accounts.isEmpty {

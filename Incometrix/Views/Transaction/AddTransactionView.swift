@@ -1,10 +1,12 @@
 import SwiftUI
 
 struct AddTransactionView: View {
-    let account: Account
+    let account: Account?
 
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Account.name, ascending: true)])
+    private var accounts: FetchedResults<Account>
 
     @State private var amountText = ""
     @State private var category = ""
@@ -12,6 +14,7 @@ struct AddTransactionView: View {
     @State private var date = Date()
     @State private var isExpense = true
     @State private var selectedCategory: TransactionCategory?
+    @State private var selectedAccountName: String = ""
 
     var body: some View {
         NavigationStack {
@@ -25,6 +28,17 @@ struct AddTransactionView: View {
 
                 TextField("Amount", text: $amountText)
                     .keyboardType(.decimalPad)
+                    .numbersOnly($amountText)
+                
+                if account == nil {
+                    Picker("Account", selection: $selectedAccountName){
+                        Text("Select")
+                        ForEach(accounts) { a in
+                            Text(a.name!).tag(a.name!)
+                        }
+                    }
+                }
+                
                 Picker("Category", selection: $selectedCategory) {
                     Text("Select").tag(TransactionCategory?.none)
                     ForEach(isExpense ? TransactionCategory.expense : TransactionCategory.income) { cat in
@@ -50,13 +64,20 @@ struct AddTransactionView: View {
     private func save() {
         guard let value = Double(amountText) else { return }
         let signedAmount = isExpense ? -abs(value) : abs(value)
+        var selectedAccount : Account?
+        var chooseAccount: Bool = false
+        
+        if account == nil {
+            selectedAccount = accounts.first(where: { $0.name == selectedAccountName })
+            chooseAccount = true
+        }
 
         Transaction.create(
             amount: signedAmount,
             category: selectedCategory?.rawValue ?? "",
             note: note.isEmpty ? nil : note,
             date: date,
-            account: account,
+            account: (chooseAccount ? selectedAccount : account)!,
             in: viewContext
         )
 

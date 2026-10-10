@@ -9,14 +9,27 @@ import Foundation
 import SwiftUI
 struct NumbersOnlyModifier: ViewModifier {
     @Binding var text: String
-    var includeDecimal: Bool = false
 
     func body(content: Content) -> some View {
         content
-            .keyboardType(includeDecimal ? .decimalPad : .numberPad)
+            .keyboardType(.decimalPad)
             .onChange(of: text) { _, newValue in
-                let allowed = includeDecimal ? "0123456789." : "0123456789"
-                let filtered = newValue.filter { allowed.contains($0) }
+
+                let allowed = "0123456789."
+                var filtered = newValue.filter { allowed.contains($0) }
+                
+                if let firstDot = filtered.firstIndex(of: ".") {
+                    let before = filtered[...firstDot]
+                    var after = filtered[filtered.index(after: firstDot)...]
+                        .replacingOccurrences(of: ".", with: "")
+                    
+                    if after.count > 2 {
+                        after.removeLast()
+                    }
+                    
+                    filtered = before + after
+                }
+                
                 if filtered != newValue {
                     text = filtered
                 }
@@ -26,6 +39,6 @@ struct NumbersOnlyModifier: ViewModifier {
 
 extension View {
     func numbersOnly(_ text: Binding<String>, includeDecimal: Bool = false) -> some View {
-        modifier(NumbersOnlyModifier(text: text, includeDecimal: includeDecimal))
+        modifier(NumbersOnlyModifier(text: text))
     }
 }

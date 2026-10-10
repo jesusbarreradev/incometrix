@@ -27,6 +27,7 @@ struct GoalsListView: View {
             }
             .sheet(isPresented: $showingAddGoal) {
                 AddGoalView()
+                    .presentationDetents([.medium])
             }
             .overlay {
                 if goals.isEmpty {

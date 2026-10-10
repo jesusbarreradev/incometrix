@@ -14,19 +14,19 @@ struct ContentView: View {
     var body: some View {
             TabView {
                 AccountsListView()
-                    .tabItem { Label("Accounts", systemImage: "creditcard") }
+                    .tabItem { Label("Accounts", systemImage: "creditcard.fill") }
                 
-                AccountsListView()
-                    .tabItem { Label("Transactions", systemImage: "dollarsign") }
+                TransactionsTabView()
+                    .tabItem { Label("Transactions", systemImage: "dollarsign.circle.fill") }
                 
-                AccountsListView()
+                ChartsHomeView()
                     .tabItem { Label("Metrics", systemImage: "chart.pie.fill") }
                 
                 GoalsListView()
                     .tabItem { Label("Goals", systemImage: "target") }
                 
-                GoalsListView()
-                    .tabItem { Label("Settings", systemImage: "gearshape.fill") }
+                BudgetListView()
+                    .tabItem { Label("Budget", systemImage: "wallet.bifold.fill") }
             }
         }
 }

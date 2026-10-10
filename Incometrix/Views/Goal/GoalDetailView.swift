@@ -26,6 +26,7 @@ struct GoalDetailView: View {
                     .keyboardType(.decimalPad)
                 HStack {
                     Button("+") { update(sign: 1) }
+                        .sensoryFeedback(.success, trigger: goal.isCompleted)
                 }
             }
         }

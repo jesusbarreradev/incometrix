@@ -28,7 +28,7 @@ struct AccountDetailView: View {
                 HStack {
                     Text("Transactions")
                     Spacer()
-                    NavigationLink("See all", destination: TransationsListView(account: account))
+                    NavigationLink("See all", destination: TransactionsListView(accounts: [account]))
                 }
             }
         }
@@ -47,9 +47,11 @@ struct AccountDetailView: View {
         }
         .sheet(isPresented: $showingAddTransaction) {
             AddTransactionView(account: account)
+                .presentationDetents([.medium])
         }
         .sheet(isPresented: $showingEditAccount) {
             EditAccountView(account: account)
+                .presentationDetents([.medium])
         }
     }
 }
